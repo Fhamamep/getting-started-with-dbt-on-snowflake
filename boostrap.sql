@@ -1,0 +1,24 @@
+USE ROLE ACCOUNTADMIN;
+
+-- Let your user switch to DCM_ADMIN directly
+SELECT CURRENT_USER();   -- copy the result
+GRANT ROLE DCM_ADMIN TO USER FELIPE_HAMAME;
+
+-- DCM needs compute to plan/deploy, and the warehouse it will create doesn't exist yet
+GRANT USAGE ON WAREHOUSE COMPUTE_WH TO ROLE DCM_ADMIN;
+
+-- The DCM project object, owned by DCM_ADMIN
+USE ROLE DCM_ADMIN;
+CREATE DCM PROJECT IF NOT EXISTS ADMIN_DB.DCM.TASTY_BYTES_INFRA;
+
+-- Needed for manifest.yml
+SELECT CURRENT_ORGANIZATION_NAME() || '-' || CURRENT_ACCOUNT_NAME() AS account_identifier;
+
+
+SHOW DCM PROJECTS IN SCHEMA ADMIN_DB.DCM;
+
+
+
+
+SHOW WAREHOUSES LIKE 'TASTY_BYTES_DBT_WH';
+SHOW SCHEMAS IN DATABASE TASTY_BYTES_DBT_DB;

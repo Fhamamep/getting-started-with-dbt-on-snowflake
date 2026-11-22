@@ -1,0 +1,15 @@
+manifest_version: 2
+type: DCM_PROJECT
+default_target: DEV
+
+targets:
+  DEV:
+    account_identifier: OAGGUTJ-AT86543
+    project_name: ADMIN_DB.DCM.TASTY_BYTES_INFRA
+    project_owner: DCM_ADMIN
+    templating_config: DEV
+
+templating:
+  configurations:
+    DEV:
+      wh_size: 'XLARGE'
