@@ -31,7 +31,7 @@ USE ROLE ACCOUNTADMIN;
 -- Alternatively, you can use an existing warehouse in your account.
 -- =============================================================================
 
-CREATE WAREHOUSE tasty_bytes_dbt_wh WAREHOUSE_SIZE = XLARGE AUTO_SUSPEND = 60;
+--CREATE WAREHOUSE tasty_bytes_dbt_wh WAREHOUSE_SIZE = XLARGE AUTO_SUSPEND = 60;
 
 -- =============================================================================
 -- STEP 2: Create a database and schemas for integrations and model materializations
@@ -82,22 +82,22 @@ ALTER SCHEMA tasty_bytes_dbt_db.public SET METRIC_LEVEL = 'ALL';
 -- See: https://docs.snowflake.com/en/user-guide/ui-snowsight/workspaces-git
 -- =============================================================================
 
-USE tasty_bytes_dbt_db.integrations;
-CREATE OR REPLACE SECRET tasty_bytes_dbt_db.integrations.tb_dbt_git_secret
-  TYPE = password
-  USERNAME = 'your-gh-username'
-  PASSWORD = 'YOUR_PERSONAL_ACCESS_TOKEN';
+-- USE tasty_bytes_dbt_db.integrations;
+-- CREATE OR REPLACE SECRET tasty_bytes_dbt_db.integrations.tb_dbt_git_secret
+--   TYPE = password
+--   USERNAME = 'your-gh-username'
+--   PASSWORD = 'YOUR_PERSONAL_ACCESS_TOKEN';
 
 -- Replace 'https://github.com/my-github-account' with the URL of the GitHub
 -- account for your forked repository.
 -- This API integration is used when creating a workspace in Snowsight (Projects > Workspaces)
 -- to connect Snowflake to your forked GitHub repository.
-CREATE OR REPLACE API INTEGRATION tb_dbt_git_api_integration
-  API_PROVIDER = git_https_api
-  API_ALLOWED_PREFIXES = ('https://github.com/my-github-account')
-  -- Comment out the following line if your forked repository is public
-  ALLOWED_AUTHENTICATION_SECRETS = (tasty_bytes_dbt_db.integrations.tb_dbt_git_secret)
-  ENABLED = TRUE;
+-- CREATE OR REPLACE API INTEGRATION tb_dbt_git_api_integration
+--   API_PROVIDER = git_https_api
+--   API_ALLOWED_PREFIXES = ('https://github.com/my-github-account')
+--   -- Comment out the following line if your forked repository is public
+--   ALLOWED_AUTHENTICATION_SECRETS = (tasty_bytes_dbt_db.integrations.tb_dbt_git_secret)
+--   ENABLED = TRUE;
 
 -- =============================================================================
 -- STEP 5: (Optional) Create a network rule and external access integration
@@ -144,6 +144,15 @@ file_format = tasty_bytes_dbt_db.public.csv_ff;
 -- =============================================================================
 --  Raw zone table builds
 -- =============================================================================
+
+-- SELECT CURRENT_ROLE();
+-- SHOW SCHEMAS IN DATABASE TASTY_BYTES_DBT_DB;
+
+
+-- USE ROLE ACCOUNTADMIN;
+-- CREATE SCHEMA IF NOT EXISTS TASTY_BYTES_DBT_DB.INTEGRATIONS;
+-- CREATE SCHEMA IF NOT EXISTS TASTY_BYTES_DBT_DB.RAW;
+-- SHOW SCHEMAS IN DATABASE TASTY_BYTES_DBT_DB;
 
 -- country table build
 CREATE OR REPLACE TABLE tasty_bytes_dbt_db.raw.country
